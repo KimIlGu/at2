@@ -1,0 +1,23 @@
+# 외부 설정 파일
+# 스프링 부트가 애플리케이션을 구동할 때 자동으로 로딩하는 파일
+# key-value 형식 정의, 애플리케이션에서 참조하여 사용
+
+# my.name = kimIlGu
+
+# @value("${my.name}")
+# String name;
+
+# yaml : 리스트, 해쉬, 스칼라 데이터의 조합으로 표현 
+# JSON은 yaml의 일종이다.
+# 들여쓰기로 구분하여 가독성이 좋다.
+# 여러 줄은 -을 이용한다. 또는
+# 한줄로 쓴다면 []로 감싸준다.
+# profiles를 선언하여 한 yaml파일 내에서 구분 가능
+
+# server.port = 8085 
+# properties 
+
+server:
+  port: 8085
+  
+
