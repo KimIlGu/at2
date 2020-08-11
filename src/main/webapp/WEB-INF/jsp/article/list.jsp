@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>메인</title>
+<title>게시물 리스트</title>
 </head>
 <body>
-	<h1>메인입니다</h1>
+	
 </body>
 </html>
