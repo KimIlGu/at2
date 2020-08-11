@@ -82,6 +82,20 @@ POM 구조
 	
 	<!-- 프로젝트와 의존관계에 있는 라이브러리 관리 -->								
 	<dependencies>		
+		
+		<!-- JSP 엔진 
+		- ecj 3.18 => JDT(자바 개발 툴) 코어, 컴파일러, 내부 컴파일러
+		- tomcat-embed-embed-el 9.0.37 => ${} EL 표기법(lang, parser, stream, util)
+		- tomcat-annotaions-api 9.0.37 => 어노테이션
+		- tomcat-embed-core 9.0.37 => tomcat(file, json, thread), servlet(http), catalina(session, servlets, mapper, connector), coyote, naming, auth 
+		- tomcat-embed-jasper 9.0.37 => jsp(el), jasper(el, servlet, runtime)
+		
+		이 순서인데 임베드 코어는 이미 존재하는 라이브러리이다. -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		
 				
 		<!-- Spring-AOP, JDBC, 웹 -->
 		<dependency>
@@ -111,7 +125,6 @@ POM 구조
 			<scope>provided</scope>
 		</dependency>
 		-->
-		
 		
 		<!-- Test -->
 		<dependency>

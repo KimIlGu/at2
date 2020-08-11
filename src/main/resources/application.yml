@@ -19,5 +19,13 @@
 
 server:
   port: 8085
-  
 
+# JSP 엔진(jasper) 도입 이후
+# 이렇게 하면 Controller에서 함수가 리턴하는 jsp 페이지를 길게 쓰지 않아도 된다.
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+      
