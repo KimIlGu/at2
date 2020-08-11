@@ -96,6 +96,13 @@ POM 구조
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
 		
+		<!-- JSTL -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		</dependency>
+		
+		
 				
 		<!-- Spring-AOP, JDBC, 웹 -->
 		<dependency>

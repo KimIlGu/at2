@@ -1,10 +1,15 @@
 package com.sbs.kig.at.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sbs.kig.at.dto.Article;
 import com.sbs.kig.at.service.ArticleService;
 
 @Controller
@@ -24,12 +29,26 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	@RequestMapping("/article/list")
-	@ResponseBody
-	public int showList() {
-		return articleService.getCount(); 
+	@RequestMapping("/article/list1")
+	public String showList1(HttpServletRequest req) {
+		int count = articleService.getCount(); 
+		
+		req.setAttribute("count", count);
+
+		return "article/list";
 	}
 	
-	// "article/list"
+	// Model이 더 진보된 방식이라는데 이건 
+	@RequestMapping("/article/list2")
+	public String showList2(Model model) {
+		int count = articleService.getCount();
+		List<Article> articles = articleService.getForPrintArticles();
+		
+		model.addAttribute("count", count);
+		model.addAttribute("articles", articles);
+		
+		return "article/list";
+	}
+	
 	
 }
