@@ -34,7 +34,7 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 				<tr>
 					<td>${article.id}</td>
 					<td>${article.regDate}</td>
-					<td><a href="detail3?id=${article.id}">${article.title}</a></td>
+					<td><a href="detail?id=${article.id}">${article.title}</a></td>
 				</tr>
 		</c:forEach>
 		</tbody>

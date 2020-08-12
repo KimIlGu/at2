@@ -83,6 +83,13 @@ POM 구조
 	<!-- 프로젝트와 의존관계에 있는 라이브러리 관리 -->								
 	<dependencies>		
 		
+		<!-- SQL 로거 -->
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
+			<version>1.16</version>
+		</dependency>
+		
 		<!-- JSP 엔진 
 		- ecj 3.18 => JDT(자바 개발 툴) 코어, 컴파일러, 내부 컴파일러
 		- tomcat-embed-embed-el 9.0.37 => ${} EL 표기법(lang, parser, stream, util)

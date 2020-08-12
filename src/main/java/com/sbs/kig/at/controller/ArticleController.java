@@ -56,15 +56,13 @@ public class ArticleController {
 //	}
 	
 	// request 대신 @RequestParam으로 사용할 수 있다.
-	@RequestMapping("/article/detail3")
+	@RequestMapping("/article/detail")
 	public String showDetail3(Model model, @RequestParam Map<String, Object> param) {
 		int id = Integer.parseInt((String)param.get("id"));
 		
 		Article article = articleService.getForPrintArticleById(id);
-		System.out.println(article);
+		
 		model.addAttribute("article", article);
-
 		return "article/detail";
 	}
-
 }
