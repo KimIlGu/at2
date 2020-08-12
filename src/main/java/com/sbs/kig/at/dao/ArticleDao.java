@@ -1,6 +1,7 @@
 package com.sbs.kig.at.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,4 +19,6 @@ public interface ArticleDao {
 	
 	// @Param("id") : id란 키로 값을 사용할 수 있다.
 	Article getForPrintArticleById(@Param("id") int id);
+
+	void write(Map<String, Object> param);
 }

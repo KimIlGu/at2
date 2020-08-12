@@ -24,4 +24,15 @@
   	WHERE id = #{id}
   </select>
   
+  
+  <!-- useGeneratedKeys="true" => Auto_increment 허용 -->
+  <insert id="write" useGeneratedKeys="true" keyProperty="id">
+  	INSERT INTO article
+  	SET regDate = NOW(),
+  	updateDate = NOW(),
+  	displayStatus = 1,
+  	title = #{title},
+  	body = #{body}
+  </insert>
+  
 </mapper>

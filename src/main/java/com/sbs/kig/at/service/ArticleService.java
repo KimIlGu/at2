@@ -1,12 +1,14 @@
 package com.sbs.kig.at.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.kig.at.dao.ArticleDao;
 import com.sbs.kig.at.dto.Article;
+import com.sbs.kig.at.util.Util;
 
 @Service
 public class ArticleService {
@@ -23,5 +25,13 @@ public class ArticleService {
 
 	public Article getForPrintArticleById(int id) {
 		return articleDao.getForPrintArticleById(id);
+	}
+
+	public int write(Map<String, Object> param) {
+		// param (title, body, redirectUrl)
+		articleDao.write(param);
+		// param (title, body, redirectUrl, id)
+		
+		return Util.getAsInt(param.get("id"));
 	}
 }

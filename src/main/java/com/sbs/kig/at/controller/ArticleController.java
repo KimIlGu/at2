@@ -57,12 +57,27 @@ public class ArticleController {
 	
 	// request 대신 @RequestParam으로 사용할 수 있다.
 	@RequestMapping("/article/detail")
-	public String showDetail3(Model model, @RequestParam Map<String, Object> param) {
+	public String showDetail(Model model, @RequestParam Map<String, Object> param) {
 		int id = Integer.parseInt((String)param.get("id"));
 		
 		Article article = articleService.getForPrintArticleById(id);
 		
 		model.addAttribute("article", article);
 		return "article/detail";
+	}
+	
+	@RequestMapping("/article/write")
+	public String showWrite() {
+		return "article/write";
+	}
+	
+	@RequestMapping("/article/doWrite")
+	public String doWrite(@RequestParam Map<String, Object> param) {
+		int newArticleId = articleService.write(param);
+		
+		String redirectUrl = (String) param.get("redirectUrl");
+		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
+
+		return "redirect:" + redirectUrl;
 	}
 }

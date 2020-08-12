@@ -11,7 +11,7 @@
 		</encoder>
 	</appender>
 	
-	<!-- Logger : 로깅이 일어나는 부분을 그룹화해 필요한 그룹의 로그만을 출력하거나, 카테고리에 우선순위를 부여함 -->
+	<!-- Logger : 로깅이 일어나는 부분을 그룹화 해 필요한 그룹의 로그만을 출력하거나, 카테고리에 우선순위를 부여함 -->
 	<logger name="jdbc" level="OFF" />
 
 	<logger name="jdbc.sqlonly" level="OFF" />
