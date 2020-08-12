@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sbs.kig.at.dao.ArticleDao">
+  <!-- yaml에서 type-aliases-package를 안해줬을 경우
+  <select id="getForPrintArticles" resultType="con.sbs.kig.at.dto.Article">
+    SELECT *
+    FROM article
+    ORDER BY id DESC
+  </select>
+   -->
+   
+  <select id="getForPrintArticles" resultType="Article">
+    SELECT *
+    FROM article
+    ORDER BY id DESC
+  </select>
+  
+  
+</mapper>

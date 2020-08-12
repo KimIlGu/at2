@@ -5,11 +5,12 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 
-<!-- 기존 방식 
-<%
+<!-- 기존 방식 < 
+%
 List<Article> counts = (List<Article>)request.getAttribute("count");
 List<Article> articles = (List<Article>)request.getAttribute("articles");
-%>
+%
+>
 -->
 
 <!DOCTYPE html>

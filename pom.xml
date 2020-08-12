@@ -144,20 +144,21 @@ POM 구조
 			</exclusions>
 		</dependency>
 		
-		<!-- 마이바티스 : 고급 매핑을 지원하는 퍼시스턴스 프레임워크 -->
-		<!-- 객체-SQL 연결 => JDBC 개선 
+		<!-- 마이바티스 : 고급 매핑을 지원하는 퍼시스턴스 프레임워크
+		DBUtil에서 했던 작업을 마이바티스가 해준다. -->
+		<!-- 객체-SQL 연결 => JDBC 개선 -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.3</version>
-		</dependency> -->
+		</dependency>
 		
-		<!-- MySQL 
+		<!-- MySQL : mysql-connector => DB 연결 -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency> -->
+		</dependency>
 		
 	</dependencies>
 	

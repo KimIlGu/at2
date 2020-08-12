@@ -27,5 +27,13 @@ spring:
     view:
       prefix: /WEB-INF/jsp/
       suffix: .jsp
-
+  # DB 연결 후에는 DB 접속 정보를 적어주어야 한다.
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/at?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehaivor=true&zeroDateTimeBehavior=convertToNull
+    # useUnicode : 한글 깨짐 방지화 autoReconnect : mysql 연결이 끊어지면 재연결  useOldAliasMetadataBehivor : MySQL 알리아싱 관련 처리 zeroDateTimeBehavior : 없는시간에 대해서 어떻게 처리할것이냐
+    username: sbsst
+    password: sbs123414
+mybatis:
+  type-aliases-package: com.sbs.kig.at.dto
       
