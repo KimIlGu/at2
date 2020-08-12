@@ -13,8 +13,15 @@
   <select id="getForPrintArticles" resultType="Article">
     SELECT *
     FROM article
+    WHERE displayStatus = 1
     ORDER BY id DESC
   </select>
   
+  <!-- 달러 기호일줄 알았는데 샾을 쓰네 -->
+  <select id="getForPrintArticleById" resultType="Article">
+  	SELECT * 
+  	FROM article
+  	WHERE id = #{id}
+  </select>
   
 </mapper>

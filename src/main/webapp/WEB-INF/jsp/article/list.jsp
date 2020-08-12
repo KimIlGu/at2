@@ -27,7 +27,6 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 				<td>번호</td>
 				<td>작성일</td>
 				<td>제목</td>
-				<td>내용</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,8 +34,7 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 				<tr>
 					<td>${article.id}</td>
 					<td>${article.regDate}</td>
-					<td>${article.title}</td>
-					<td>${article.body}</td>
+					<td><a href="detail3?id=${article.id}">${article.title}</a></td>
 				</tr>
 		</c:forEach>
 		</tbody>

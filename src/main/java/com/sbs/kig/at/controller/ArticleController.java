@@ -1,11 +1,13 @@
 package com.sbs.kig.at.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sbs.kig.at.dto.Article;
 import com.sbs.kig.at.service.ArticleService;
@@ -26,14 +28,43 @@ public class ArticleController {
 
 	// Model이 더 진보된 방식이라는데 이건 아직은 잘 모르겠다
 	@RequestMapping("/article/list")
-	public String showList2(Model model) {
-		int count = articleService.getCount();
+	public String showList(Model model) {
 		List<Article> articles = articleService.getForPrintArticles();
 
-		model.addAttribute("count", count);
 		model.addAttribute("articles", articles);
 
 		return "article/list";
+	}
+
+//	@RequestMapping("/article/detail")
+//	public String showDetail(Model model, int id) {
+//		Article article = articleService.getForPrintArticleById(id);
+//		model.addAttribute("article", article);
+//
+//		return "article/detail";
+//	}
+//	
+//	// 모든 파라미터가 param에 들어있다.
+//	@RequestMapping("/article/detail2")
+//	public String showDetail2(Model model, Map<String, Object> param, HttpRequest request) {
+//		int id = Integer.parseInt((String)param.get("id"));
+//		
+//		Article article = articleService.getForPrintArticleById(id);
+//		model.addAttribute("article", article);
+//		
+//		return "article/detail";
+//	}
+	
+	// request 대신 @RequestParam으로 사용할 수 있다.
+	@RequestMapping("/article/detail3")
+	public String showDetail3(Model model, @RequestParam Map<String, Object> param) {
+		int id = Integer.parseInt((String)param.get("id"));
+		
+		Article article = articleService.getForPrintArticleById(id);
+		System.out.println(article);
+		model.addAttribute("article", article);
+
+		return "article/detail";
 	}
 
 }
