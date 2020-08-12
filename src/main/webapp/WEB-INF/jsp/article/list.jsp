@@ -5,6 +5,9 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 
+<c:set var="pageTitle" value="게시물 리스트" />
+
+<%@ include file="../part/head.jspf" %>
 <!-- 기존 방식 < 
 %
 List<Article> counts = (List<Article>)request.getAttribute("count");
@@ -12,25 +15,32 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 %
 >
 -->
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>게시물 리스트</title>
-</head>
-<body>
-	<h1>게시물 리스트</h1>
+<div class="table-box con">
+	<table>
+		<colgroup>
+			<col width="100"/>
+			<col width="200"/>
+		</colgroup>
 	
-	<c:forEach items="${articles}" var="article">
-		<div>
-			${article.id} <br />
-			${article.regDate} <br />
-			${article.updateDate} <br />
-			${article.title} <br />
-			${article.body} <br />
-		</div>
-	</c:forEach>	
+		<thead>
+			<tr>
+				<td>번호</td>
+				<td>작성일</td>
+				<td>제목</td>
+				<td>내용</td>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${articles}" var="article">
+				<tr>
+					<td>${article.id}</td>
+					<td>${article.regDate}</td>
+					<td>${article.title}</td>
+					<td>${article.body}</td>
+				</tr>
+		</c:forEach>
+		</tbody>
+	</table>	
+</div>
 	
-</body>
-</html>
+<%@ include file="../part/foot.jspf" %>
