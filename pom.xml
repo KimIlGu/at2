@@ -101,8 +101,6 @@ POM 구조
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
 		</dependency>
-		
-		
 				
 		<!-- Spring-AOP, JDBC, 웹 -->
 		<dependency>
