@@ -1,5 +1,10 @@
 package com.sbs.kig.at.interceptor;
 
+import java.net.URLEncoder;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.service.MemberService;
 
@@ -24,10 +30,49 @@ public class BeforeActionIntercepter implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
+		// 기타 유용한 정보를 request에 담는다.
+		Map<String, Object> param = new HashMap<>();
+
+		Enumeration<String> parameterNames = request.getParameterNames();
+
+		while (parameterNames.hasMoreElements()) {
+			String paramName = parameterNames.nextElement();
+			Object paramValue = request.getParameter(paramName);
+
+			param.put(paramName, paramValue);
+		}
+
+		ObjectMapper mapper = new ObjectMapper();
+		String paramJson = mapper.writeValueAsString(param);
+
+		String requestUri = request.getRequestURI();
+		String queryString = request.getQueryString();
+
+		String requestUriQueryString = requestUri;
+		if (queryString != null && queryString.length() > 0) {
+			requestUriQueryString += "?" + queryString;
+		}
+		// Alt + shift + R : 동일한 변수 동시 수정 
+		String encodedRequestUriQueryString = URLEncoder.encode(requestUriQueryString, "UTF-8");
+
+		request.setAttribute("requestUriQueryString", requestUriQueryString);
+		request.setAttribute("urlEncodedRequestUriQueryString", encodedRequestUriQueryString);
+		request.setAttribute("param", param);
+		request.setAttribute("paramJson", paramJson);
+
+		boolean isAjax = requestUri.endsWith("Ajax");
+
+		if (isAjax == false) {
+			if (param.containsKey("ajax") && param.get("ajax").equals("Y")) {
+				isAjax = true;
+			}
+		}
+
+		request.setAttribute("isAjax", isAjax);
 
 		// 설정 파일에 있는 정보를 request에 담는다.
 		request.setAttribute("logoText", this.siteName);
-
 		HttpSession session = request.getSession();
 
 		// 임시작업
