@@ -45,9 +45,6 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 
 	<script>
 		function ArticleWriteReplyForm__submit(form) {
-			// alert(form); [Object HTMLFormElement]
-			// alert(form.body); [Object HTMLTextAreaElement]
-			// alert(form.body.value); 내용
 			
 			form.body.value = form.body.value.trim();
 			if (form.body.value.length == 0) {
@@ -55,12 +52,10 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 				form.body.focus();
 				return;
 			}
-			alert()
 			$.post('./doWriteReplyAjax', {
 				articleId : param.id,
 				body : form.body.value
 			}, function(data) {
-			alert(data.msg);
 			}, 'json');
 			form.body.value = '';
 		}
@@ -134,7 +129,7 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 			if (data.body.articleReplies && data.body.articleReplies.length > 0) {
 				ArticleReplyList__lastLoaded = data.body.articleReplies[data.body.articleReplies.length - 1].id;
 				ArticleReplyList__drawReplies(data.body.articleReplies);
-			setTimeout(ArticleReplyList__loadMore, 3000);
+			setTimeout(ArticleReplyList__loadMore, 1000);
 			}				
 		}, 'json');
 	}
@@ -151,7 +146,7 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 		html += '<tr>';
 		html += '<td>' + articleReply.id +'</td>';
 		html += '<td>' + articleReply.regDate +'</td>';
-		html += '<td>' + 11 +'</td>';
+		html += '<td>' + articleReply.extra.writer +'</td>';
 		html += '<td>' + articleReply.body +'</td>';
 		html += '<td>비고</td>';
 		html += '</tr>';
