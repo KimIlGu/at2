@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.sbs.kig.at.dto.Article;
+import com.sbs.kig.at.dto.ArticleReply;
 
 /* 인터페이스이기 때문에 객체 생성이 불가하다. 
    인터페이스에 @Component를 해주지 않아도 스프링은 똑똑하게 찾아낸다.
@@ -21,4 +22,8 @@ public interface ArticleDao {
 	Article getForPrintArticleById(@Param("id") int id);
 
 	void write(Map<String, Object> param);
+
+	void writeReply(Map<String, Object> param);
+
+	List<ArticleReply> getForPrintArticleReplies(Map<String, Object> param);
 }

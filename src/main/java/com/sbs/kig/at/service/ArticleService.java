@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sbs.kig.at.dao.ArticleDao;
 import com.sbs.kig.at.dto.Article;
+import com.sbs.kig.at.dto.ArticleReply;
 import com.sbs.kig.at.util.Util;
 
 @Service
@@ -33,5 +34,15 @@ public class ArticleService {
 		// param (title, body, redirectUrl, id)
 		
 		return Util.getAsInt(param.get("id"));
+	}
+
+	public int writeReply(Map<String, Object> param) {
+		articleDao.writeReply(param);
+
+		return Util.getAsInt(param.get("id"));
+	}
+
+	public List<ArticleReply> getForPrintArticleReplies(Map<String, Object> param) {
+		return articleDao.getForPrintArticleReplies(param);
 	}
 }

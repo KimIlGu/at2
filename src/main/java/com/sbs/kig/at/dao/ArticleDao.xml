@@ -24,7 +24,6 @@
   	WHERE id = #{id}
   </select>
   
-  
   <!-- useGeneratedKeys="true" => Auto_increment 허용 -->
   <insert id="write" useGeneratedKeys="true" keyProperty="id">
   	INSERT INTO article
@@ -34,5 +33,26 @@
   	title = #{title},
   	body = #{body}
   </insert>
+  
+  <insert id="writeReply" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO articleReply
+	SET regDate = NOW(),
+	updateDate = NOW(),
+	body = #{body},
+	memberId = #{memberId},
+	articleId = #{articleId},
+	displayStatus = 1
+  </insert>
+  
+  <select id="getForPrintArticleReplies" resultType="ArticleReply">
+  	<![CDATA[
+	SELECT * 
+  	FROM articleReply
+  	WHERE articleId = #{articleId}
+  	AND displayStatus = 1
+	AND id >= #{from}
+	ORDER BY id ASC
+	]]>
+  </select>
   
 </mapper>
