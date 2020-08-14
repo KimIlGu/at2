@@ -5,5 +5,7 @@
 <c:set var="pageTitle" value="메인" />
 
 <%@ include file="../part/head.jspf" %>
-	<h1>메인입니다</h1>
+	<div class="con">
+		<h1>메인입니다</h1>
+	</div>
 <%@ include file="../part/foot.jspf" %>
