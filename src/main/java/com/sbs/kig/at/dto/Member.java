@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class Member {
@@ -14,10 +14,10 @@ public class Member {
 	private boolean delStatus;
 	private String delDate;
 	private boolean authStatus;
-	private String loginId; 
+	private String loginId;
 	private String loginPw;
 	private String name;
 	private String nickname;
 	private String email;
-	private String phoneNo;
+	private String cellphoneNo;
 }
