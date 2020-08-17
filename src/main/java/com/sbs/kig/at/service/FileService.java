@@ -1,12 +1,14 @@
 package com.sbs.kig.at.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.kig.at.dao.FileDao;
+import com.sbs.kig.at.dto.File;
 import com.sbs.kig.at.util.Util;
 
 @Service
@@ -34,5 +36,34 @@ public class FileService {
 
 		return Util.getAsInt(param.get("id"));
 	}
+	
+	public void changeRelId(int id, int relId) {
+		fileDao.changeRelId(id, relId);
+	}
 
+	public Map<Integer, File> getFilesMapKeyRelId(String relTypeCode, List<Integer> relIds, String typeCode,
+			String type2Code, int fileNo) {
+		List<File> files = fileDao.getFiles(relTypeCode, relIds, typeCode, type2Code, fileNo);
+		Map<Integer, File> map = new HashMap<>();
+
+		for (File file : files) {
+			map.put(file.getRelId(), file);
+		}
+
+		return map;
+	}
+
+	public byte[] getFileBodyById(int id) {
+		File file = fileDao.getFileById(id);
+		System.out.println("body : " + file.getBody());
+		return file.getBody();
+	}
+
+	public void deleteFiles(String relTypeCode, int relId) {
+		fileDao.deleteFiles(relTypeCode, relId);
+	}
+
+	public File getFileById(int id) {
+		return fileDao.getFileById(id);
+	}
 }

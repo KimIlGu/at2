@@ -1,5 +1,6 @@
 package com.sbs.kig.at.controller;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,20 +19,36 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.common.base.Joiner;
+import com.sbs.kig.at.dto.File;
 import com.sbs.kig.at.dto.ResultData;
 import com.sbs.kig.at.service.FileService;
+import com.sbs.kig.at.service.VideoStreamService;
 import com.sbs.kig.at.util.Util;
+
+import reactor.core.publisher.Mono;
 
 @Controller
 public class FileController {
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private VideoStreamService videoStreamService;
+
+	@RequestMapping("/usr/file/streamVideo")
+	public Mono<ResponseEntity<byte[]>> streamVideo(
+			@RequestHeader(value = "Range", required = false) String httpRangeList, int id) {
+		File file = fileService.getFileById(id);
+		final ByteArrayInputStream is = new ByteArrayInputStream(file.getBody());
+
+		return Mono.just(videoStreamService.prepareContent(is, file.getFileSize(), file.getFileExt(), httpRangeList));
+	}
 
 	@RequestMapping("/usr/file/doUploadAjax")
 	@ResponseBody
 	public ResultData uploadAjax(@RequestParam Map<String, Object> param, HttpServletRequest req,
 			MultipartRequest multipartRequest) {
-
+		System.out.println("1241252365235463625235252352");
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 
 		List<Integer> fileIds = new ArrayList<>();
