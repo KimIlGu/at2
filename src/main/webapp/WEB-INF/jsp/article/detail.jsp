@@ -38,12 +38,13 @@
 				return;
 			}
 			var startUploadFiles = function(onSuccess) {
-				if(form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__1.value == null) {
+				var fileUploadFormData = new FormData(form);
+				
+				if ( form.file__reply__0__common__attachment__1.value.length == 0 ) {
 					onSuccess();
 					return;
-				}
+				} 
 				
-				var fileUploadFormData = new FormData(form);
 				fileUploadFormData.delete("relTypeCode");
 				fileUploadFormData.delete("relId");
 				
@@ -73,10 +74,10 @@
 				});
 			};
 			startUploadFiles(function(data) {
-				var idsStr = data.body.fileIdsStr;
-	
-				if(data && data.body && data.body.fileIdStr) {
-					idStr = data.body.fileIdsStr;
+				var idsStr = '';
+				
+				if ( data && data.body && data.body.fileIdsStr ) {
+					idsStr = data.body.fileIdsStr;
 				}
 				
 				startWriteReply(idsStr, function(data) {
@@ -86,16 +87,15 @@
 					
 					form.body.value = '';
 					form.file__reply__0__common__attachment__1.value = '';
-					ArticleWriteReplyForm__submitDone = false;
 				});
 			});
 		}
 	</script>
-	
+
 	<form class="table-box con form1"
 		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
-		<input type="hidden" name="relTypeCode" value="article" /> 
-		<input type="hidden" name="relId" value="${article.id}" />
+		<input type="hidden" name="relTypeCode" value="article" /> <input
+			type="hidden" name="relId" value="${article.id}" />
 		<table>
 			<tbody>
 				<tr>
