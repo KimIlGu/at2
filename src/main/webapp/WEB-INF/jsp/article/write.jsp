@@ -39,11 +39,10 @@ function ArticleWriteForm__submit(form) {
 }
 </script>
 
-<form class="form1" action="doWrite" method="POST" 
+<form class="table-box con" action="doWrite" method="POST" 
 	  onsubmit="ArticleWriteForm__submit(this); return false;">
 	<input type="hidden" name="redirectUrl" value="/article/detail?id=#id"/>
-	<div class="table-box con">
-		<table>
+	<table>
 			<tbody>
 				<tr>
 					<th>제목</th>
@@ -70,6 +69,5 @@ function ArticleWriteForm__submit(form) {
 				</tr>
 			</tbody>
 		</table>
-	</div>
 </form>
 <%@ include file="../part/foot.jspf"%>
