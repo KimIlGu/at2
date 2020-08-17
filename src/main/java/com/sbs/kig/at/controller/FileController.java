@@ -37,28 +37,30 @@ public class FileController {
 	@Autowired
 	private VideoStreamService videoStreamService;
 
-	private LoadingCache<Integer, File> fileCache = CacheBuilder.newBuilder().maximumSize(100)
-			.expireAfterAccess(10, TimeUnit.MINUTES).build(new CacheLoader<Integer, File>() {
-				@Override
-				public File load(Integer fileId) {
-					return fileService.getFileById(fileId);
-				}
-			});
+	private LoadingCache<Integer, File> fileCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(10, TimeUnit.MINUTES).build(new CacheLoader<Integer, File>() {
+		@Override
+		public File load(Integer fileId) {
+			return fileService.getFileById(fileId);
+		}
+	});
 
 	@RequestMapping("/usr/file/streamVideo")
 	public ResponseEntity<byte[]> streamVideo(@RequestHeader(value = "Range", required = false) String httpRangeList,
 			int id) {
 		File file = Util.getCacheData(fileCache, id);
-		
+
 		return videoStreamService.prepareContent(new ByteArrayInputStream(file.getBody()), file.getFileSize(),
 				file.getFileExt(), httpRangeList);
 	}
 
+	// 다중 파일 업로드 가능
 	@RequestMapping("/usr/file/doUploadAjax")
 	@ResponseBody
 	public ResultData uploadAjax(@RequestParam Map<String, Object> param, HttpServletRequest req,
 			MultipartRequest multipartRequest) {
+		
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+		
 		List<Integer> fileIds = new ArrayList<>();
 
 		for (String fileInputName : fileMap.keySet()) {
@@ -69,10 +71,10 @@ public class FileController {
 			if (fileInputNameBits[0].equals("file")) {
 				byte[] fileBytes = Util.getFileBytesFromMultipartFile(multipartFile);
 
-				if ( fileBytes == null || fileBytes.length == 0 ) {
+				if (fileBytes == null || fileBytes.length == 0) {
 					continue;
 				}
-				
+
 				String relTypeCode = fileInputNameBits[1];
 				int relId = Integer.parseInt(fileInputNameBits[2]);
 				String typeCode = fileInputNameBits[3];

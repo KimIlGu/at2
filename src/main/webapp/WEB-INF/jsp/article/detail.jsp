@@ -29,6 +29,15 @@
 
 <c:if test="${isLogined}">
 	<h2 class="con">댓글 작성</h2>
+
+	<!-- onSuccess(doUploadAjax) => startUploadFiles => startWriteReply(doWriteReplyAjax)
+	     1. 파일 정보만 파일 관리소로 보냄
+		 => 파일을 종류별로 분류하여 파일 테이블에 저장
+		 
+		 2. 댓글과 파일 정보(fileIdsStr, fileIds) 를 댓글 테이블에 저장 
+		 
+	-->
+
 	<script>
 		function ArticleWriteReplyForm__submit(form) {
 			form.body.value = form.body.value.trim();
@@ -38,19 +47,20 @@
 				return;
 			}
 			var startUploadFiles = function(onSuccess) {
-				var fileUploadFormData = new FormData(form);
-				
+				// 파일 첨부를 안할 경우	
 				if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 ) {
 					onSuccess();
 					return;
 				} 
 
+				// 파일 첨부를 할 경우, new FormData : Ajax로 파일 업로드 하기 위한 방법
 				var fileUploadFormData = new FormData(form);
-				
+
 				fileUploadFormData.delete("relTypeCode");
 				fileUploadFormData.delete("relId");
 				fileUploadFormData.delete("body");
-				
+
+				// 파일 업로드 하기 위해 정해져 있는 방식
 				$.ajax({
 					url : './../file/doUploadAjax',
 					data : fileUploadFormData,
@@ -76,6 +86,8 @@
 					success : onSuccess
 				});
 			};
+
+			// data는 onSuccess가 실행하고 반환값이다. 파일 업로드가 있을 수도 없을 수도 있다는 말이다. 
 			startUploadFiles(function(data) {
 				var idsStr = '';
 				
@@ -87,7 +99,8 @@
 					if(data.msg) {
 						alert(data.msg);
 					}
-					
+
+					// 다 끝나고 첨부파일 초기값으로 초기화
 					form.body.value = '';
 					form.file__reply__0__common__attachment__1.value = '';
 					form.file__reply__0__common__attachment__2.value = '';
@@ -98,8 +111,8 @@
 
 	<form class="table-box con form1"
 		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
-		<input type="hidden" name="relTypeCode" value="article" /> <input
-			type="hidden" name="relId" value="${article.id}" />
+		<input type="hidden" name="relTypeCode" value="article" /> 
+		<input type="hidden" name="relId" value="${article.id}" />
 		<table>
 			<tbody>
 				<tr>
@@ -198,6 +211,7 @@
 	</form>
 </div>
 
+<!-- 수정 => 출력 => 숨김 => 리스트 -->
 <script>
 	var ReplyList__$box = $('.reply-list-box');
 	var ReplyList__$tbody = ReplyList__$box.find('tbody');

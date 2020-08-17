@@ -83,7 +83,8 @@ POM 구조
 	<!-- 프로젝트와 의존관계에 있는 라이브러리 관리 -->								
 	<dependencies>	
 	
-		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava 
+		자바의 제이쿼리 같은 역할 -->
 		<dependency>
 		    <groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
