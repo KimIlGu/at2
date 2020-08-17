@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.kig.at.dto.Article;
 import com.sbs.kig.at.dto.ArticleReply;
+import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.dto.ResultData;
 import com.sbs.kig.at.service.ArticleService;
 
@@ -74,8 +75,11 @@ public class ArticleController {
 	
 	@RequestMapping("/usr/article/getForPrintArticleReplies")
 	@ResponseBody
-	public ResultData getForPrintArticleReplies(@RequestParam Map<String, Object> param) {
+	public ResultData getForPrintArticleReplies(@RequestParam Map<String, Object> param, HttpServletRequest req) {
+		Member loginedMember = (Member)req.getAttribute("loginedMember");
 		Map<String, Object> rsDataBody = new HashMap<>();
+		
+		param.put("actor", loginedMember);
 
 		List<ArticleReply> articleReplies = articleService.getForPrintArticleReplies(param);
 		rsDataBody.put("articleReplies", articleReplies);

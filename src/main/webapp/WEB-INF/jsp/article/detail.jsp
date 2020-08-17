@@ -155,7 +155,6 @@
 			},
 			'json'
 		);
-			
 	}
 	
 	function ArticleReplyList__drawReply(articleReply) {

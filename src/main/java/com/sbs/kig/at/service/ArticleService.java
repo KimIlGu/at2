@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.sbs.kig.at.dao.ArticleDao;
 import com.sbs.kig.at.dto.Article;
 import com.sbs.kig.at.dto.ArticleReply;
+import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.util.Util;
 
 @Service
@@ -43,9 +44,31 @@ public class ArticleService {
 	}
 
 	public List<ArticleReply> getForPrintArticleReplies(Map<String, Object> param) {
-		return articleDao.getForPrintArticleReplies(param);
+		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReplies(param);
+
+		Member actor = (Member)param.get("actor");
+
+		for ( ArticleReply articleReply : articleReplies ) {
+			// 출력용 부가데이터를 추가한다.
+			updateForPrintInfo(actor, articleReply);
+		}
+
+		return articleReplies;
 	}
 	
+	private void updateForPrintInfo(Member actor, ArticleReply articleReply) {
+		articleReply.getExtra().put("actorCanDelete", actorCanDelete(actor, articleReply));
+		articleReply.getExtra().put("actorCanUpdate", actorCanUpdate(actor, articleReply));
+	}
+
+	private Object actorCanDelete(Member actor, ArticleReply articleReply) {
+		return actorCanUpdate(actor, articleReply);
+	}
+	
+	private Object actorCanUpdate(Member actor, ArticleReply articleReply) {
+		return actor != null && actor.getId() == articleReply.getMemberId() ? true : false;
+	}
+
 	public void deleteReply(int id) {
 		articleDao.deleteReply(id);
 	}
