@@ -63,7 +63,9 @@ public class ArticleController {
 	@ResponseBody
 	public ResultData doWriteReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		Map<String, Object> rsDataBody = new HashMap<>();
+
 		param.put("memberId", request.getAttribute("loginedMemberId"));
+
 		int newArticleReplyId = articleService.writeReply(param);
 		rsDataBody.put("articleReplyId", newArticleReplyId);
 

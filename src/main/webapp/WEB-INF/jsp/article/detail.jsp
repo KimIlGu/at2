@@ -32,6 +32,8 @@
 	</table>
 </div>
 
+
+<!-- Param을 사용할수있는건 넘겨준 쿼리스트링 뿐이구나 -->
 <c:if test="${isLogined}">
 	<h2 class="con">댓글 작성</h2>
 
@@ -54,7 +56,6 @@
 
 	<form class="table-box con form1" action=""
 		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
-
 		<table>
 			<tbody>
 				<tr>
@@ -81,11 +82,11 @@
 <div class="article-reply-list-box table-box con">
 	<table>
 		<colgroup>
-			<col width="80">
-			<col width="180">
-			<col width="180">
-			<col>
-			<col width="200">
+			<col width="80" />
+			<col width="180" />
+			<col width="180" />
+			<col />
+			<col width="200" />
 		</colgroup>
 		<thead>
 			<tr>
@@ -106,6 +107,15 @@
 	var ArticleReplyList__$box = $('.article-reply-list-box');
 	var ArticleReplyList__$tbody = ArticleReplyList__$box.find('tbody');
 	var ArticleReplyList__lastLodedId = 0;
+	
+	// article-reply-list-box 클래스를 검색한다.
+	var ArticleReplyList__$box = $('.article-reply-list-box');
+	
+	// article-reply-list-box 에서 tbody를 검색한다.
+	var ArticleReplyList__$tbody = ArticleReplyList__$box.find('tbody');
+
+	ArticleReplyList__lastLodedId = 0;
+
 	function ArticleReplyList__loadMore() {
 		$.get('getForPrintArticleReplies', {
 			articleId : param.id,
@@ -118,12 +128,14 @@
 			setTimeout(ArticleReplyList__loadMore, 1000);
 		}, 'json');
 	}
+	
 	function ArticleReplyList__drawReplies(articleReplies) {
 		for ( var i = 0; i < articleReplies.length; i++ ) {
 			var articleReply = articleReplies[i];
 			ArticleReplyList__drawReply(articleReply);
 		}
 	}	
+	
 	function ArticleReplyList__delete(el) {
 		if ( confirm('삭제 하시겠습니까?') == false ) {
 			return;
@@ -143,10 +155,12 @@
 			},
 			'json'
 		);
+			
 	}
 	
 	function ArticleReplyList__drawReply(articleReply) {
 		var html = '';
+		
 		html += '<tr data-id="' + articleReply.id + '">';
 		html += '<td>' + articleReply.id + '</td>';
 		html += '<td>' + articleReply.regDate + '</td>';
@@ -156,6 +170,7 @@
 		html += '</tr>';
 		ArticleReplyList__$tbody.prepend(html);
 	}
+	
 	ArticleReplyList__loadMore();
 </script>
 
