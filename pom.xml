@@ -81,7 +81,14 @@ POM 구조
 	</properties>
 	
 	<!-- 프로젝트와 의존관계에 있는 라이브러리 관리 -->								
-	<dependencies>		
+	<dependencies>	
+	
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>29.0-jre</version>
+		</dependency>	
 		
 		<!-- SQL 로거 -->
 		<dependency>

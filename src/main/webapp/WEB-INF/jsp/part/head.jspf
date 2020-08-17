@@ -22,9 +22,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <!-- BeforeAction에서 URI에 담긴 정보를 자바스크립트에서 사용하고 싶을 경우 -->
-<script>
-var param = ${paramJson};
-</script>
+<%="<script>"%>
+	var param = ${paramJson};
+<%="</script>"%>
 
 </head>
 <body>

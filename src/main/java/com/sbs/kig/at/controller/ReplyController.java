@@ -18,7 +18,6 @@ import com.sbs.kig.at.dto.ResultData;
 import com.sbs.kig.at.service.ReplyService;
 import com.sbs.kig.at.util.Util;
 
-
 @Controller
 public class ReplyController {
 	@Autowired
