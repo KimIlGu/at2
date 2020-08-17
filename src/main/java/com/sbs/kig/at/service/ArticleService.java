@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.sbs.kig.at.dao.ArticleDao;
 import com.sbs.kig.at.dto.Article;
-import com.sbs.kig.at.dto.ArticleReply;
+import com.sbs.kig.at.dto.Reply;
 import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.dto.ResultData;
 import com.sbs.kig.at.util.Util;
@@ -44,12 +44,12 @@ public class ArticleService {
 		return Util.getAsInt(param.get("id"));
 	}
 
-	public List<ArticleReply> getForPrintArticleReplies(Map<String, Object> param) {
-		List<ArticleReply> articleReplies = articleDao.getForPrintArticleReplies(param);
+	public List<Reply> getForPrintReplies(Map<String, Object> param) {
+		List<Reply> articleReplies = articleDao.getForPrintReplies(param);
 
 		Member actor = (Member)param.get("actor");
 
-		for ( ArticleReply articleReply : articleReplies ) {
+		for ( Reply articleReply : articleReplies ) {
 			// 출력용 부가데이터를 추가한다.
 			updateForPrintInfo(actor, articleReply);
 		}
@@ -57,16 +57,16 @@ public class ArticleService {
 		return articleReplies;
 	}
 	
-	private void updateForPrintInfo(Member actor, ArticleReply articleReply) {
+	private void updateForPrintInfo(Member actor, Reply articleReply) {
 		articleReply.getExtra().put("actorCanDelete", actorCanDelete(actor, articleReply));
 		articleReply.getExtra().put("actorCanModify", actorCanModify(actor, articleReply));
 	}
 
-	public boolean actorCanDelete(Member actor, ArticleReply articleReply) {
+	public boolean actorCanDelete(Member actor, Reply articleReply) {
 		return actorCanModify(actor, articleReply);
 	}
 	
-	public boolean actorCanModify(Member actor, ArticleReply articleReply) {
+	public boolean actorCanModify(Member actor, Reply articleReply) {
 		return actor != null && actor.getId() == articleReply.getMemberId() ? true : false;
 	}
 
@@ -74,8 +74,8 @@ public class ArticleService {
 		articleDao.deleteReply(id);
 	}
 
-	public ArticleReply getForPrintArticleReplyById(int id) {
-		return articleDao.getForPrintArticleReplyById(id);
+	public Reply getForPrintReplyById(int id) {
+		return articleDao.getForPrintReplyById(id);
 	}
 
 	public ResultData modfiyReply(Map<String, Object> param) {
