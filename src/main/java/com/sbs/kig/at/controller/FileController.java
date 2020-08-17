@@ -36,8 +36,9 @@ public class FileController {
 
 	@Autowired
 	private VideoStreamService videoStreamService;
-
-	private LoadingCache<Integer, File> fileCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(10, TimeUnit.MINUTES).build(new CacheLoader<Integer, File>() {
+	
+	// 구아바의 기능 : 스프링에서 DB에 있는 파일을 10분 동안 가지고 있겠다.
+	private LoadingCache<Integer, File> fileCache = CacheBuilder.newBuilder().maximumSize(100).expireAfterAccess(2, TimeUnit.MINUTES).build(new CacheLoader<Integer, File>() {
 		@Override
 		public File load(Integer fileId) {
 			return fileService.getFileById(fileId);
@@ -47,13 +48,16 @@ public class FileController {
 	@RequestMapping("/usr/file/streamVideo")
 	public ResponseEntity<byte[]> streamVideo(@RequestHeader(value = "Range", required = false) String httpRangeList,
 			int id) {
+		// 캐시 안의 데이터를 가져오는 방법, 10분 동안 DB를 귀찮게 하지 않음.
 		File file = Util.getCacheData(fileCache, id);
-
+		
+		// file.getBody() : 동영상의 바이트 배열, 파일의 크기, 파일의 확장자 
+		// httpRangeList : 브라우저가 동영상을 요청할 때 어디부터 어디까지 달라고 하는데, 파라미터가 아닌 헤더로 정보를 넘겨줌.
 		return videoStreamService.prepareContent(new ByteArrayInputStream(file.getBody()), file.getFileSize(),
 				file.getFileExt(), httpRangeList);
 	}
 
-	// 다중 파일 업로드 가능
+	// 다중 파일 업로드
 	@RequestMapping("/usr/file/doUploadAjax")
 	@ResponseBody
 	public ResultData uploadAjax(@RequestParam Map<String, Object> param, HttpServletRequest req,
