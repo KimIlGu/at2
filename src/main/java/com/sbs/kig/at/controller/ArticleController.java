@@ -18,6 +18,7 @@ import com.sbs.kig.at.dto.ArticleReply;
 import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.dto.ResultData;
 import com.sbs.kig.at.service.ArticleService;
+import com.sbs.kig.at.util.Util;
 
 @Controller
 public class ArticleController {
@@ -89,8 +90,31 @@ public class ArticleController {
 	
 	@RequestMapping("/usr/article/doDeleteReplyAjax")
 	@ResponseBody
-	public ResultData doDeleteReplyAjax(int id) {
+	public ResultData doDeleteReplyAjax(int id, HttpServletRequest req) {
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		ArticleReply articleReply = articleService.getForPrintArticleReplyById(id);
+
+		if (articleService.actorCanDelete(loginedMember, articleReply) == false) {
+			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id));
+		}
+		
 		articleService.deleteReply(id);
 		return new ResultData("S-1", String.format("%d번 댓글을 삭제하였습니다.", id));
+	}
+	
+	@RequestMapping("/usr/article/doModifyReplyAjax")
+	@ResponseBody
+	public ResultData doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest req, int id) {
+		Member loginedMember = (Member) req.getAttribute("loginedMember");
+		ArticleReply articleReply = articleService.getForPrintArticleReplyById(id);
+
+		if (articleService.actorCanModify(loginedMember, articleReply) == false) {
+			return new ResultData("F-1", String.format("%d번 댓글을 수정할 권한이 없습니다.", id));
+		}
+
+		Map<String, Object> modfiyReplyParam = Util.getNewMapOf(param, "id", "body");
+		ResultData rd = articleService.modfiyReply(modfiyReplyParam);
+
+		return rd;
 	}
 }
