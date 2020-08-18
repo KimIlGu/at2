@@ -94,7 +94,7 @@
 </script>
 <form method="POST" class="table-box con form1" action="doJoin"
 	onsubmit="MemberJoinForm__submit(this); return false;">
-	<input type="hidden" name="redirectUrl" value="/usr/member/login">
+	<input type="hidden" name="redirectUri" value="/usr/member/login">
 	<input type="hidden" name="loginPwReal">
 
 	<table>
@@ -161,7 +161,7 @@
 				<td>
 					<div class="form-control-box">
 						<input type="tel" placeholder="휴대전화번호를 입력해주세요." name="cellphoneNo"
-							maxlength="12" />
+							maxlength="13" />
 					</div>
 				</td>
 			</tr>

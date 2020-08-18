@@ -41,7 +41,7 @@ List<Article> articles = (List<Article>)request.getAttribute("articles");
 
 <form class="table-box con" action="doWrite" method="POST"
 	onsubmit="ArticleWriteForm__submit(this); return false;">
-	<input type="hidden" name="redirectUrl" value="/article/detail?id=#id" />
+	<input type="hidden" name="redirectUri" value="/usr/article/detail?id="/>
 	<table>
 		<tbody>
 			<tr>

@@ -44,12 +44,12 @@ public class ArticleController {
 	}
 	
 	@RequestMapping("/usr/article/doWrite")
-	public String doWrite(@RequestParam Map<String, Object> param) {
+	public String doWrite(@RequestParam Map<String, Object> param, String redirectUri, Model model) {
 		int newArticleId = articleService.write(param);
-		
-		String redirectUrl = (String) param.get("redirectUrl");
-		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
 
-		return "redirect:" + redirectUrl;
+		redirectUri = redirectUri.concat(newArticleId + "");
+		model.addAttribute("redirectUri", redirectUri); 
+		
+		return "common/redirect";
 	}
 }

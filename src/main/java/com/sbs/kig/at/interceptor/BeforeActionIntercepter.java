@@ -1,8 +1,5 @@
 package com.sbs.kig.at.interceptor;
 
-import java.net.URLEncoder;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sbs.kig.at.dto.Member;
 import com.sbs.kig.at.service.MemberService;
+import com.sbs.kig.at.util.Util;
 
 @Component("beforeActionInterceptor") // 컴포넌트 이름 설정
 public class BeforeActionIntercepter implements HandlerInterceptor {
@@ -32,40 +29,33 @@ public class BeforeActionIntercepter implements HandlerInterceptor {
 			throws Exception {
 
 		// 기타 유용한 정보를 request에 담는다.
-		Map<String, Object> param = new HashMap<>();
+		Map<String, Object> param = Util.getParamMap(request);
+		String paramJson = Util.toJsonStr(param);
 
-		Enumeration<String> parameterNames = request.getParameterNames();
-
-		// 쿼리스트링을 param에 저장한다.
-		while (parameterNames.hasMoreElements()) {
-			String paramName = parameterNames.nextElement();
-			Object paramValue = request.getParameter(paramName);
-			param.put(paramName, paramValue);
-		}
-
-		ObjectMapper mapper = new ObjectMapper();
-		// Json 쿼리스트링
-		String paramJson = mapper.writeValueAsString(param);
-		// URI
 		String requestUri = request.getRequestURI();
-		// 쿼리스트링
 		String queryString = request.getQueryString();
-
-		String requestUriQueryString = requestUri;
-		// 쿼리스트링이 존재할 경우
+		
 		if (queryString != null && queryString.length() > 0) {
-			requestUriQueryString += "?" + queryString;
+			requestUri += "?" + queryString;
 		}
-		// 그와중에 꿀팁 : Alt + shift + R : 동일한 변수 동시 수정
 
-		// uri + queryString 인코딩
-		String encodedRequestUriQueryString = URLEncoder.encode(requestUriQueryString, "UTF-8");
+		String encodedRequestUri = Util.getUriEncoded(requestUri);
+		
+		request.setAttribute("requestUri", requestUri);
+		request.setAttribute("encodedRequestUri", encodedRequestUri);
 
-		// 2가지 경우 : 1. 쿼리스트링이 존재하지 않을 경우 2. 쿼리스트링이 존재할 경우
-		request.setAttribute("requestUriQueryString", requestUriQueryString);
+		String afterLoginUri = requestUri;
 
-		// 1가지 경우 : 쿼리스트링이 존재하는데 인코딩한 경우
-		request.setAttribute("urlEncodedRequestUriQueryString", encodedRequestUriQueryString);
+		// 현재 페이지가 이미 로그인 페이지라면, 이 상태에서 로그인 버튼을 눌렀을 때 기존 param의 redirectUri가 계속 유지되도록
+		// 한다.
+		if (requestUri.contains("/usr/member/login")) {
+			afterLoginUri = Util.getString(request, "redirectUri", "");
+		}
+
+		String encodedAfterLoginUri = Util.getUriEncoded(afterLoginUri);
+
+		request.setAttribute("afterLoginUri", afterLoginUri);
+		request.setAttribute("encodedAfterLoginUri", encodedAfterLoginUri);
 
 		// 맵 형식으로 쿼리스트링을 저장한 Param
 		request.setAttribute("param", param);
